@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio — Responsive One Page</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Mobile-first base */
+    :root{
+      --primary: #0b63d6;
+      --accent: #ff6f4d;
+      --muted: #f1f1f1;
+      --card: #ffffff;
+      --text: #222;
+      --radius: 0.6rem;
+      --container-w: 90%;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:var(--text);
+      background: linear-gradient(180deg, #fafafa 0%, #f6f6f6 100%);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+      font-size:1rem; /* 1rem baseline */
+    }
+
+    .wrap{
+      width:var(--container-w);
+      max-width:1100px;
+      margin:0 auto;
+      padding:1.25rem 0;
+    }
+
+    /* Header - Flexbox */
+    header{
+      background:var(--primary);
+      color:#fff;
+      padding:0.6rem 0;
+      position:sticky;
+      top:0;
+      z-index:50;
+      box-shadow:0 4px 8px rgba(10,10,10,0.05);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      width:var(--container-w);
+      margin:0 auto;
+      max-width:1100px;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:0.6rem;
+      font-weight:700;
+      letter-spacing:0.02em;
+      font-size:1.05rem;
+    }
+    .logo .dot{width:0.9rem;height:0.9rem;background:#fff;border-radius:0.25rem}
+    nav{
+      display:flex;
+      gap:0.6rem;
+      align-items:center;
+    }
+    nav a{
+      color:rgba(255,255,255,0.95);
+      text-decoration:none;
+      padding:0.45rem 0.6rem;
+      border-radius:0.4rem;
+      font-weight:600;
+      transition: transform .18s ease, background .18s ease, opacity .18s ease;
+      opacity:0.95;
+      font-size:0.95rem;
+    }
+    nav a:hover{
+      transform:translateY(-3px) scale(1.02);
+      opacity:1;
+      background:rgba(255,255,255,0.12);
+    }
+
+    /* Hero - Flexbox for layout (text left, image right) */
+    .hero{
+      margin:1.2rem auto;
+      display:flex;
+      gap:1.2rem;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem;
+      background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+      border-radius:0.8rem;
+      box-shadow:0 6px 18px rgba(20,20,30,0.04);
+    }
+    .hero-left{
+      flex:1 1 58%;
+      min-width:0;
+      padding-right:1rem;
+      animation: slideInLeft 700ms ease both;
+    }
+    .hero-right{
+      flex:0 1 34%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      animation: slideInRight 700ms ease both;
+    }
+
+    h1{
+      margin:0 0 0.35rem 0;
+      font-size:clamp(1.6rem, 4.2vw, 2.75rem);
+      line-height:1.02;
+      font-weight:800;
+      color:var(--text);
+    }
+    .intro-sub{
+      display:block;
+      font-size:1rem;
+      color:#666;
+      margin-bottom:0.9rem;
+    }
+
+    /* animated highlighted role */
+    .role {
+      display:inline-block;
+      font-size:clamp(1.05rem, 3.1vw, 1.55rem);
+      font-weight:700;
+      color:var(--accent);
+      padding:0.15rem 0.35rem;
+      border-radius:0.35rem;
+      animation: roleColor 3.6s linear infinite;
+    }
+
+    /* Hero image */
+    .profile{
+      width:160px;
+      height:160px;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow:0 12px 30px rgba(10,10,30,0.08);
+      border:6px solid rgba(255,255,255,0.6);
+      background:linear-gradient(180deg,#e9f0ff,#f5f9ff);
+    }
+    .profile img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* About */
+    section{
+      margin-top:1rem;
+      padding:1rem 0;
+    }
+    .card{
+      background:var(--card);
+      padding:1rem;
+      border-radius:0.7rem;
+      box-shadow:0 6px 18px rgba(18,18,30,0.03);
+    }
+
+    .about p{ color:#555; margin:0; font-size:0.95rem; }
+
+    /* Skills - Grid */
+    .skills-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:0.9rem;
+      margin-top:0.9rem;
+    }
+    .skill{
+      background:var(--primary);
+      color:#fff;
+      padding:0.9rem;
+      border-radius:0.6rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.4rem;
+      justify-content:center;
+      align-items:flex-start;
+      transition: transform .25s ease, box-shadow .2s ease;
+      cursor:default;
+    }
+    .skill small{ font-size:0.78rem; opacity:0.9 }
+    .skill h4{ margin:0; font-size:1.05rem; font-weight:700; }
+
+    .skill:hover{
+      transform:translateY(-6px) scale(1.02);
+      box-shadow:0 12px 28px rgba(10,20,60,0.08);
+    }
+
+    /* Projects - Grid */
+    .projects-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+    .project-card{
+      padding:1.1rem;
+      border-radius:0.6rem;
+      background:linear-gradient(180deg,#fff,#fbfbfb);
+      border:1px solid rgba(15,15,25,0.03);
+      min-height:6.5rem;
+      transition: transform .25s ease, box-shadow .2s ease;
+    }
+    .project-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 12px 30px rgba(10,10,25,0.06);
+    }
+
+    /* Contact form center */
+    .contact-inner{
+      max-width:420px;
+      margin:1rem 0;
+    }
+    .field{
+      margin-bottom:0.7rem;
+    }
+    input, textarea {
+      width:100%;
+      padding:0.6rem;
+      border-radius:0.4rem;
+      border:1px solid #d7d7d7;
+      font-size:0.95rem;
+      outline:none;
+      transition:border-color .15s ease, transform .12s ease;
+    }
+    input:focus, textarea:focus{ border-color:var(--primary); transform:translateY(-1px); }
+    button.primary{
+      display:inline-block;
+      background:var(--primary);
+      color:#fff;
+      padding:0.65rem 1rem;
+      border-radius:0.45rem;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .15s ease;
+    }
+    button.primary:hover{ transform:translateY(-4px) scale(1.01); box-shadow:0 10px 26px rgba(10,80,200,0.12); }
+
+    /* Footer */
+    footer{
+      margin-top:1.4rem;
+      background:var(--primary);
+      color:#fff;
+      padding:0.8rem;
+      border-radius:0.4rem;
+      text-align:center;
+      font-size:0.95rem;
+    }
+
+    /* small back-to-top button */
+    .top-btn{
+      position:fixed;
+      right:1.25rem;
+      bottom:1.25rem;
+      background:var(--primary);
+      color:#fff;
+      border:none;
+      padding:0.5rem 0.6rem;
+      border-radius:0.5rem;
+      box-shadow:0 12px 26px rgba(10,10,30,0.12);
+      cursor:pointer;
+      transition: transform .15s ease;
+      z-index:60;
+    }
+    .top-btn:hover{ transform:translateY(-4px); }
+
+    /* Animations */
+    @keyframes roleColor{
+      0%{ color: #ff6f4d; text-shadow:0 0 0 rgba(255,111,77,0); }
+      25%{ color: #ff9a66; text-shadow:0 0 10px rgba(255,154,102,0.08); }
+      50%{ color: #1ea7ff; text-shadow:0 0 8px rgba(30,167,255,0.06); }
+      75%{ color: #7b5cff; text-shadow:0 0 12px rgba(123,92,255,0.06); }
+      100%{ color: #ff6f4d; text-shadow:0 0 0 rgba(255,111,77,0); }
+    }
+    @keyframes fadeUp {
+      from{ transform:translateY(18px); opacity:0 }
+      to{ transform:none; opacity:1 }
+    }
+    @keyframes slideInLeft {
+      from{ transform:translateX(-18px); opacity:0 }
+      to{ transform:none; opacity:1 }
+    }
+    @keyframes slideInRight {
+      from{ transform:translateX(18px); opacity:0 }
+      to{ transform:none; opacity:1 }
+    }
+
+    /* Section headings */
+    .section-title{
+      font-weight:700;
+      margin-bottom:0.6rem;
+      font-size:1.05rem;
+    }
+
+    /* Larger screens: tablet and desktop */
+    @media (min-width:640px){
+      .skills-grid{ grid-template-columns:repeat(3,1fr); }
+      .projects-grid{ grid-template-columns:repeat(2,1fr); }
+      .hero{ padding:1.6rem; gap:1.6rem; }
+      .profile{ width:200px; height:200px; }
+    }
+
+    @media (min-width:980px){
+      :root{ --container-w:82%; }
+      header{ padding:0.75rem 0; }
+      .skills-grid{ grid-template-columns:repeat(4,1fr); }
+      .projects-grid{ grid-template-columns:repeat(3,1fr); }
+    }
+
+    /* Desktop: place hero image as circle overlapping */
+    @media (min-width:1100px){
+      .wrap{ max-width:1060px; }
+      .hero-right{ transform: translateY(-6px); }
+    }
+
+    /* extra: small tweaks for accessibility on small screens */
+    @media (max-width:420px){
+      nav{ gap:0.35rem; }
+      h1{ font-size:1.5rem }
+      .hero{ flex-direction:column; align-items:flex-start }
+      .hero-right{ width:100%; display:flex; justify-content:flex-end }
+      .skills-grid{ grid-template-columns:repeat(2,1fr); }
+    }
+
+    /* subtle fade-in for main sections */
+    .card, .project-card, .skill, .about { animation: fadeUp 550ms ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="dot" aria-hidden="true"></div>
+        <div>My Portfolio</div>
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content wrapper -->
+  <main class="wrap" id="home" role="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-left">
+        <h1 id="hero-heading">Hi, I am <span style="font-weight:800">Priyanshi</span></h1>
+        <div class="intro-sub">Building modern web applications with a full-stack approach.</div>
+        <div style="margin-bottom:0.8rem;">
+          <span class="role">Full Stack Developer</span>
+        </div>
+        <p style="color:#666; max-width:60ch;">
+          I design and build accessible, responsive websites and apps. I enjoy solving problems and learning new technologies — currently working with HTML, CSS, JavaScript and backend APIs.
+        </p>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <div class="profile" title="Profile image">
+          <!-- use provided uploaded image path -->
+          <img src="/mnt/data/output.jpg" alt="Profile illustration or photo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+      <div class="section-title">About Me</div>
+      <div class="card">
+        <p>
+          I'm a dedicated web developer learning modern front-end and back-end technologies. This portfolio demonstrates responsive layout using Flexbox, CSS Grid, media queries, and CSS animations.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-title">My Skills</div>
+      <div class="skills-grid" role="list">
+        <div class="skill" role="listitem">
+          <h4>HTML</h4>
+          <small>Experts: semantic markup & accessibility</small>
+        </div>
+        <div class="skill" role="listitem">
+          <h4>CSS</h4>
+          <small>Experts: layouts, animations, responsive</small>
+        </div>
+        <div class="skill" role="listitem">
+          <h4>JavaScript</h4>
+          <small>Intermediate: DOM, ES6+, fetch</small>
+        </div>
+        <div class="skill" role="listitem">
+          <h4>React</h4>
+          <small>Learning: component architecture</small>
+        </div>
+        <div class="skill" role="listitem">
+          <h4>Node.js</h4>
+          <small>Learning: APIs & backend basics</small>
+        </div>
+        <div class="skill" role="listitem">
+          <h4>Git</h4>
+          <small>Version control & collaboration</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-title">My Projects</div>
+      <div class="projects-grid">
+        <div class="project-card card">
+          <strong>Project 1 — Responsive Landing</strong>
+          <p style="color:#666; margin-top:0.6rem;">A responsive landing page built with semantic HTML and modern CSS Grid/Flexbox.</p>
+        </div>
+        <div class="project-card card">
+          <strong>Project 2 — Todo App</strong>
+          <p style="color:#666; margin-top:0.6rem;">A small JavaScript app demonstrating DOM manipulation and localStorage persistence.</p>
+        </div>
+        <div class="project-card card">
+          <strong>Project 3 — Portfolio (This)</strong>
+          <p style="color:#666; margin-top:0.6rem;">A one-page responsive portfolio using Flexbox, Grid, media queries and CSS animations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="section-title">Contact Me</div>
+      <div class="card contact-inner" aria-labelledby="contact-heading">
+        <form id="contactForm" onsubmit="return false;" novalidate>
+          <div class="field">
+            <label for="name" style="font-size:0.9rem; display:block; margin-bottom:0.25rem">Name</label>
+            <input id="name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div class="field">
+            <label for="email" style="font-size:0.9rem; display:block; margin-bottom:0.25rem">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" required>
+          </div>
+          <div class="field">
+            <label for="message" style="font-size:0.9rem; display:block; margin-bottom:0.25rem">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Write your message" required></textarea>
+          </div>
+          <div style="display:flex;gap:0.6rem;align-items:center">
+            <button class="primary" type="submit" id="sendBtn">Send</button>
+            <div id="sentNotice" style="color:green;font-weight:600;display:none;font-size:0.95rem">Message Ready ✓</div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      © <span id="year"></span> Priyanshi — All rights reserved.
+    </footer>
+
+  </main>
+
+  <button class="top-btn" title="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+  <script>
+    // small JS: update year, simple form feedback
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('contactForm');
+    const sendBtn = document.getElementById('sendBtn');
+    const notice = document.getElementById('sentNotice');
+
+    sendBtn.addEventListener('click', () => {
+      // quick validation
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      // show small visual feedback (no actual network request)
+      notice.style.display = 'inline-block';
+      sendBtn.disabled = true;
+      sendBtn.style.opacity = 0.8;
+      setTimeout(() => {
+        notice.textContent = 'Message Sent! Thanks ;
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = 1;
+        // clear fields
+        form.reset();
+        setTimeout(() => { notice.style.display = 'none'; notice.textContent = 'Message Ready ✓'; }, 2200);
+      }, 900);
+    });
+
+    // Smooth scroll for nav links (handles older browsers gracefully)
+    document.querySelectorAll('nav a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const target = document.querySelector(id);
+        if (target) target.scrollIntoView({behavior:'smooth', block: 'start'});
+      });
+    });
+  </script>
+</body>
+</html>
